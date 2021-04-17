@@ -5,4 +5,10 @@
     <string name="start_sign_up">Sign up</string>
     <string name="start_sign_in">Sign in</string>
     <string name="start_open_without_registration">Open without registration</string>
+    <string name="reg_title_up">PLEASE REGISTER</string>
+    <string name="reg_title_in">PLEASE ENTER YOUR EMAIL AND PASSWORD</string>
+    <string name="reg_name">Your name</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_error_text">The field is not filled in correctly!</string>
 </resources>

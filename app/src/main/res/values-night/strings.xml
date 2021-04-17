@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="reg_title">Please, enter your details</string>
+    <string name="reg_name">Your name</string>
+    <string name="reg_email">Email</string>
+    <string name="reg_password">Password</string>
+    <string name="reg_error_text">The field is not filled in correctly!</string>
+</resources>
