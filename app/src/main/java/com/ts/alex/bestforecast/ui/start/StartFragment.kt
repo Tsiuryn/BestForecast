@@ -1,20 +1,21 @@
 package com.ts.alex.bestforecast.ui.start
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.util.Log
+import android.view.*
+import android.widget.Toolbar
 import androidx.activity.OnBackPressedCallback
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
+import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.ts.alex.bestforecast.MainActivity
 import com.ts.alex.bestforecast.R
 import com.ts.alex.bestforecast.databinding.FragmentStartBinding
-import com.ts.alex.bestforecast.ui.registration.RegistrationFragment
-import org.koin.androidx.viewmodel.ext.android.viewModel
 import kotlinx.coroutines.flow.collect
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 
 class StartFragment : Fragment() {
@@ -53,6 +54,18 @@ class StartFragment : Fragment() {
                 navController.navigate(action)
             }
         }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.startWithoutRegistr.collect {
+                val action = StartFragmentDirections.actionStartFragmentToForecastMainFragment()
+                navController.navigate(action)
+            }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (requireActivity() as MainActivity).supportActionBar?.hide()
     }
 
     private fun onBackPress() {
@@ -63,5 +76,4 @@ class StartFragment : Fragment() {
         }
         requireActivity().onBackPressedDispatcher.addCallback(requireActivity(), callback)
     }
-
 }

@@ -5,4 +5,8 @@
     <string name="reg_email">Email</string>
     <string name="reg_password">Password</string>
     <string name="reg_error_text">The field is not filled in correctly!</string>
+    <string name="reg_incorrect_psw_email">Email or Password doesn\'t correct</string>
+
+    <string name="icon_url">http://openweathermap.org/img/wn/%s@2x.png</string>
+    <string name="settings_time">Time (hh:mm): %s : %s</string>
 </resources>

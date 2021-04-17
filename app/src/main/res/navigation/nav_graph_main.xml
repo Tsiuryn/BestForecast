@@ -36,5 +36,18 @@
         android:id="@+id/forecastMainFragment"
         android:name="com.ts.alex.bestforecast.ui.forecast.main_screen.ForecastMainFragment"
         android:label="ForecastMainFragment"
-        tools:layout="@layout/fragment_forecast_main"/>
+        tools:layout="@layout/fragment_forecast_main">
+        <action
+            android:id="@+id/action_forecastMainFragment_to_settingsFragment"
+            app:destination="@id/settingsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/settingsFragment"
+        android:name="com.ts.alex.bestforecast.ui.forecast.settings.SettingsFragment"
+        android:label="SettingsFragment"
+        tools:layout="@layout/fragment_settings">
+        <action
+            android:id="@+id/action_settingsFragment_to_forecastMainFragment"
+            app:destination="@id/forecastMainFragment" />
+    </fragment>
 </navigation>

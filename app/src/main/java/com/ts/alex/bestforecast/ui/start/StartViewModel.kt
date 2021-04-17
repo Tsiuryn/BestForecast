@@ -17,6 +17,10 @@ class StartViewModel: ViewModel() {
     val startSignIn: Flow<Boolean>
         get() = _startSignIn
 
+    private val _startWithoutRegistr= MutableSharedFlow<Boolean>()
+    val startWithoutRegistr: Flow<Boolean>
+        get() = _startWithoutRegistr
+
 
     fun startSignUp(){
         viewModelScope.launch {
@@ -31,7 +35,8 @@ class StartViewModel: ViewModel() {
     }
 
     fun startWithoutRegistration(){
-
+        viewModelScope.launch {
+            _startWithoutRegistr.emit(true)
+        }
     }
-
 }

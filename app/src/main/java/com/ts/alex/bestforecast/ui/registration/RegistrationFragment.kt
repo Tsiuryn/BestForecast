@@ -128,7 +128,7 @@ class RegistrationFragment: Fragment() {
                 if(isCorrect){
                     navController.navigate(action)
                 }else{
-                    val message = "Email or Password doesn't correct"
+                    val message = getString(R.string.reg_incorrect_psw_email)
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
 
