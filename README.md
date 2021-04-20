@@ -1,5 +1,5 @@
 # The Best FORECAST 
-![Finished App](https://github.com/Tsiuryn/BestForecast/blob/master/presentation/SVID_20210420_215403_1.gif)
+![Finished App](https://github.com/Tsiuryn/BestForecast/blob/master/presentation/SVID_20210420_215403_1%20.gif)
 
 Приложение для мониторинга прогноза погоды. Должно включать в себя:
 1) Любимые города (добавить, удалить)
