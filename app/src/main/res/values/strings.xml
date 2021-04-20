@@ -27,4 +27,5 @@
     <string name="settings_update_data">The weather forecast will be updated every %s hours and %s minutes</string>
     <string name="settings_cancel_update">Weather forecast update canceled</string>
     <string name="reg_register">register</string>
+    <string name="settings_zero">Hours and minutes cannot be zero at the same time</string>
 </resources>

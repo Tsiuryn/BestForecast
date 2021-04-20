@@ -91,7 +91,11 @@ class SettingsFragment : Fragment() {
         binding.vSaveData.setOnClickListener{
             val hour = binding.nHour.value
             val minutes = binding.nMinute.value
-            SyncJob.startJob(hour * 60L + minutes)
+            try {
+                SyncJob.startJob(hour * 60L + minutes)
+            }catch (e: Exception){
+                Toast.makeText(requireContext(), getString(R.string.settings_zero), Toast.LENGTH_SHORT).show()
+            }
             val text = getString(R.string.settings_update_data, hour.toString(), minutes.toString())
             Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
         }

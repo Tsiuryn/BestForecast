@@ -23,4 +23,5 @@
     <string name="settings_cancel_update">Отменено обновление прогноза погоды</string>
     <string name="reg_title">Пожалуйста, заполните!</string>
     <string name="reg_register">Регистрация</string>
+    <string name="settings_zero">Часы и минуты не могут одновременно равняться нулю</string>
 </resources>
