@@ -1,10 +1,10 @@
 package com.ts.alex.data.repository
 
-import com.ts.alex.data.datasource.impl.WorkWithCityDataSource
-import com.ts.alex.domain.usecase.IWorkWithCity
+import com.ts.alex.data.datasource.IWorkWithCityDataSource
+import com.ts.alex.domain.usecase.IWorkWithCityUseCase
 
-class WorkWithCityRepository(private val workWithCityDataSource: WorkWithCityDataSource)
-    : IWorkWithCity{
+class WorkWithCityRepository(private val workWithCityDataSource: IWorkWithCityDataSource)
+    : IWorkWithCityUseCase{
     override fun getCity(): String {
         return workWithCityDataSource.getCity()
     }

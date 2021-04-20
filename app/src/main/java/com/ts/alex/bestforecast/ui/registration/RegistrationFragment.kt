@@ -23,7 +23,7 @@ import com.ts.alex.bestforecast.databinding.FragmentRegistrationBinding
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class RegistrationFragment: Fragment() {
+class RegistrationFragment : Fragment() {
     private val viewModel by viewModel<RegistrationViewModel>()
     private lateinit var binding: FragmentRegistrationBinding
     private lateinit var navController: NavController
@@ -39,15 +39,16 @@ class RegistrationFragment: Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View{
-        binding = DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
+    ): View {
+        binding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.vm = viewModel
-        navController  = Navigation.findNavController(requireView())
+        navController = Navigation.findNavController(requireView())
         onBackPress()
         title = binding.vTitle
         inputName = binding.vNameLayout
@@ -56,16 +57,16 @@ class RegistrationFragment: Fragment() {
         vButton = binding.vButtonNext
         viewModel.setConfigScreen(args.isSignUp)
 
-        if(args.isSignUp){
+        if (args.isSignUp) {
             setUpSignUpScreen()
-        }else{
+        } else {
             setUpSignInScreen()
         }
         validationFields()
         observeVm()
 
-        vButton.setOnClickListener{
-            binding.vProgress.visibility = View.VISIBLE
+        vButton.setOnClickListener {
+            binding.vProgressBar.visibility = View.VISIBLE
             viewModel.nextStep(args.isSignUp)
         }
     }
@@ -92,20 +93,20 @@ class RegistrationFragment: Fragment() {
         }
 
         inputName.editText!!.setOnFocusChangeListener { _, hasFocus ->
-           showError( inputName, viewModel.isValidName, hasFocus)
+            showError(inputName, viewModel.isValidName, hasFocus)
         }
         inputEmail.editText!!.setOnFocusChangeListener { _, hasFocus ->
-            showError( inputEmail, viewModel.isValidEmail, hasFocus)
+            showError(inputEmail, viewModel.isValidEmail, hasFocus)
         }
         inputPassword.editText!!.setOnFocusChangeListener { _, hasFocus ->
-            showError( inputPassword, viewModel.isValidPassword, hasFocus)
+            showError(inputPassword, viewModel.isValidPassword, hasFocus)
         }
     }
 
     private fun showError(inputLayout: TextInputLayout, validName: Boolean, hasFocus: Boolean) {
-            if(!hasFocus && !validName){
-                inputLayout.error = getString(R.string.reg_error_text)
-            }else inputLayout.error = null
+        if (!hasFocus && !validName) {
+            inputLayout.error = getString(R.string.reg_error_text)
+        } else inputLayout.error = null
     }
 
     private fun observeVm() {
@@ -117,17 +118,18 @@ class RegistrationFragment: Fragment() {
         }
         lifecycleScope.launchWhenStarted {
             viewModel.hideProgress.collect {
-                binding.vProgress.visibility = View.GONE
+                binding.vProgressBar.visibility = View.GONE
 
             }
         }
 
         lifecycleScope.launchWhenStarted {
-            viewModel.goToTheNextStep.collect {isCorrect ->
-                val action = RegistrationFragmentDirections.actionRegistrationFragmentToForecastMainFragment()
-                if(isCorrect){
+            viewModel.goToTheNextStep.collect { isCorrect ->
+                val action =
+                    RegistrationFragmentDirections.actionRegistrationFragmentToForecastMainFragment()
+                if (isCorrect) {
                     navController.navigate(action)
-                }else{
+                } else {
                     val message = getString(R.string.reg_incorrect_psw_email)
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
@@ -139,7 +141,8 @@ class RegistrationFragment: Fragment() {
     private fun onBackPress() {
         val callback: OnBackPressedCallback = object : OnBackPressedCallback(true) {
             override fun handleOnBackPressed() {
-                val action = RegistrationFragmentDirections.actionRegistrationFragmentToStartFragment()
+                val action =
+                    RegistrationFragmentDirections.actionRegistrationFragmentToStartFragment()
                 navController.navigate(action)
             }
         }

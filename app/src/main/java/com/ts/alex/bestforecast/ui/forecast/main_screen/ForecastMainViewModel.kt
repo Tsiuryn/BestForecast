@@ -3,15 +3,13 @@ package com.ts.alex.bestforecast.ui.forecast.main_screen
 import android.annotation.SuppressLint
 import android.content.Context
 import android.location.Location
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.ts.alex.device.setUpLocationListener
-import com.ts.alex.domain.model.User
+import com.ts.alex.bestforecast.device.gps.setUpLocationListener
 import com.ts.alex.domain.model.forecast.Forecast
 import com.ts.alex.domain.usecase.IGetForecastUseCase
-import com.ts.alex.domain.usecase.IGetUserUseCase
-import com.ts.alex.domain.usecase.IWorkWithCity
+import com.ts.alex.domain.usecase.IUserUseCase
+import com.ts.alex.domain.usecase.IWorkWithCityUseCase
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -20,14 +18,16 @@ import kotlinx.coroutines.launch
 class ForecastMainViewModel(
     private val context: Context,
     private val getForecast: IGetForecastUseCase,
-    private val prefUser: IGetUserUseCase,
-    private val prefCity: IWorkWithCity
+    private val prefUser: IUserUseCase,
+    private val prefCity: IWorkWithCityUseCase
 ) : ViewModel() {
 
     var myUser = "Hi,"
 
     var city = ""
     private set
+
+    private var forecast : Forecast? = null
 
 
     private val _progress: MutableSharedFlow<Boolean> = MutableSharedFlow<Boolean>()
@@ -38,7 +38,7 @@ class ForecastMainViewModel(
 
     private val _weatherByCity = MutableSharedFlow<Forecast>()
     val weatherByCity: Flow<Forecast>
-        get() = _weatherByLocation
+        get() = _weatherByCity
 
     private val _weatherByLocation = MutableSharedFlow<Forecast>()
     val weatherByLocation: Flow<Forecast>
@@ -48,24 +48,20 @@ class ForecastMainViewModel(
     val showException: Flow<String>
         get() = _showException
 
-    private val _user = MutableSharedFlow<String>()
-    val user: Flow<String>
-        get() = _user
-
     fun getWeatherByCity(city: String) {
         viewModelScope.launch {
             handleLoading {
-                _weatherByCity.emit(getForecast.getWeatherByCity(city))
+                forecast = getForecast.getWeatherByCity(city)
+                _weatherByCity.emit(forecast!!)
+
             }
         }
     }
 
     fun getUser(){
         viewModelScope.launch {
-            Log.d("TAG11", "getUser: ${prefUser.invoke()}")
-            val user = prefUser.invoke()
-            myUser = "Hi, ${user.name}"
-            _user.emit(user.name)
+            val user = prefUser.getUser().name
+            myUser = "Hi, ${if(user.isEmpty()) "you aren't registered" else user}"
         }
     }
 
@@ -75,11 +71,11 @@ class ForecastMainViewModel(
             viewModelScope.launch(Dispatchers.IO) {
 
                 handleLoading {
-                    val forecast = getForecast.getWeatherByLocation(
+                    forecast = getForecast.getWeatherByLocation(
                         lat = it.latitude,
                         lon = it.longitude
                     )
-                    _weatherByLocation.emit(forecast)
+                    _weatherByLocation.emit(forecast!!)
                 }
             }
         }
@@ -94,6 +90,16 @@ class ForecastMainViewModel(
                 }
         }
 
+    }
+
+    fun saveData(){
+        setDefaultCity(forecast?.name?: "")
+    }
+
+    fun getDefaultCity():String = prefCity.getCity()
+
+    private fun setDefaultCity(city: String){
+        prefCity.setCity(city)
     }
 
     private suspend inline fun handleLoading(

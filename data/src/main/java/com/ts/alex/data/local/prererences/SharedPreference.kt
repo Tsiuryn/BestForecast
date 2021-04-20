@@ -8,8 +8,9 @@ class SharedPreference(private val context: Context) {
 
     private val GET_CURRENT_USER = "com.ts.alex.data.local.prererences.current_user"
     fun getUser(): String? {
+        val user = "{\"email\":\"\",\"name\":\"\",\"password\":\"\"}"
         val preferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        val userText = preferences.getString(GET_CURRENT_USER, "nothing to show")
+        val userText = preferences.getString(GET_CURRENT_USER, user)
         return userText
 
     }
@@ -22,7 +23,7 @@ class SharedPreference(private val context: Context) {
     private val GET_CITY = "com.ts.alex.data.local.prererences.saved_city"
     fun getCity(): String? {
         val preferences = context.getSharedPreferences(PREFERENCES, Context.MODE_PRIVATE)
-        val userText = preferences.getString(GET_CITY, "nothing to show")
+        val userText = preferences.getString(GET_CITY, "")
         return userText
 
     }

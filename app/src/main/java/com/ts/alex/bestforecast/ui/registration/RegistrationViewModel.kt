@@ -6,8 +6,7 @@ import com.ts.alex.bestforecast.ui.registration.util.isValidEmail
 import com.ts.alex.bestforecast.ui.registration.util.isValidPassword
 import com.ts.alex.bestforecast.ui.registration.util.isValidText
 import com.ts.alex.domain.model.User
-import com.ts.alex.domain.usecase.IGetUserUseCase
-import com.ts.alex.domain.usecase.ISaveUserUseCase
+import com.ts.alex.domain.usecase.IUserUseCase
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -15,8 +14,7 @@ import kotlinx.coroutines.launch
 
 
 class RegistrationViewModel(
-    private val saveUser: ISaveUserUseCase,
-    private val getUser: IGetUserUseCase
+    private val user: IUserUseCase
 ) : ViewModel() {
 
     var isValidName = false
@@ -69,7 +67,7 @@ class RegistrationViewModel(
         viewModelScope.launch {
             delay(3_000)
             if(isSignUp){
-                saveUser(User(name = name, email = email, password = password))
+                user.saveUser(User(name = name, email = email, password = password))
                 _hideProgress.emit(true)
                 _goToTheNextStep.emit(true)
             }else{
@@ -80,7 +78,7 @@ class RegistrationViewModel(
     }
 
     private fun isCorrectData(): Boolean {
-        val user = getUser.invoke()
+        val user = user.getUser()
         return email == user.email && password == user.password
     }
 

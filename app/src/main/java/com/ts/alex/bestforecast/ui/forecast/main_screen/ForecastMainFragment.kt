@@ -1,8 +1,6 @@
 package com.ts.alex.bestforecast.ui.forecast.main_screen
 
 import android.os.Bundle
-import android.text.Html
-import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
@@ -15,8 +13,10 @@ import androidx.navigation.Navigation
 import com.bumptech.glide.Glide
 import com.ts.alex.bestforecast.R
 import com.ts.alex.bestforecast.databinding.FragmentForecastMainBinding
-import com.ts.alex.bestforecast.ui.forecast.settings.SettingsFragment
+import com.ts.alex.bestforecast.device.job.SyncJob
+import com.ts.alex.bestforecast.ui.MyApp
 import com.ts.alex.bestforecast.utils.GPSPermission
+import com.ts.alex.bestforecast.device.notification.Notification
 import kotlinx.coroutines.flow.collect
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
@@ -39,20 +39,29 @@ class ForecastMainFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
+        super.onViewCreated(view,
+            savedInstanceState)
         binding.vm = viewModel
         navController = Navigation.findNavController(requireView())
         observe()
-        GPSPermission(requireActivity()).checkPermission {
-            viewModel.getWeatherByCurrentLocation()
-        }
-        binding.vSettings.setOnClickListener {
-            SettingsFragment().show(requireActivity().supportFragmentManager, SettingsFragment::class.java.canonicalName)
-        }
-
         viewModel.getUser()
+        start()
+        binding.vSettings.setOnClickListener {
+            val action = ForecastMainFragmentDirections.actionForecastMainFragmentToSettingsFragment()
+            navController.navigate(action)
+        }
         onBackPress()
+    }
 
+    private fun start(){
+        val city = viewModel.getDefaultCity()
+        if(city.isEmpty()){
+            GPSPermission(requireActivity()).checkPermission {
+                viewModel.getWeatherByCurrentLocation()
+            }
+        } else{
+            viewModel.getWeatherByCity(city)
+        }
 
     }
 
@@ -113,6 +122,11 @@ class ForecastMainFragment : Fragment() {
         binding.vLocation.text = location
         val text = "Speed of the wind:"
         binding.vWind.text =  "$text $speed m/s"
+    }
+
+    override fun onPause() {
+        super.onPause()
+        viewModel.saveData()
     }
 
     private fun onBackPress() {

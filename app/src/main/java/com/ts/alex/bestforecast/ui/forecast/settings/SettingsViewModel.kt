@@ -1,11 +1,13 @@
 package com.ts.alex.bestforecast.ui.forecast.settings
 
 import androidx.lifecycle.ViewModel
-import com.ts.alex.domain.usecase.IGetUserUseCase
+import com.ts.alex.domain.usecase.IUserUseCase
+import com.ts.alex.domain.usecase.IWorkWithCityUseCase
 
 
 class SettingsViewModel(
-    private val iGetUser: IGetUserUseCase
+    private val iGetUser: IUserUseCase,
+    private val shp: IWorkWithCityUseCase
 ) : ViewModel() {
 
     var name = "Name: not registered"
@@ -15,11 +17,15 @@ class SettingsViewModel(
     var password = "Password: "
         private set
 
+    var defaultCity = "Default city: "
+
 
     init {
-        val user = iGetUser()
-        name = "Name: ${user.name}"
+        val user = iGetUser.getUser()
+        name = "Name:  ${if (user.name.isEmpty()) "you aren't registered" else user.name}"
         email = "Email: ${user.email}"
         password = "Password: ${user.password}"
+        defaultCity = "Default city: ${shp.getCity()}"
+
     }
 }

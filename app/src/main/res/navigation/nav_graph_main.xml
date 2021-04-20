@@ -49,5 +49,17 @@
         <action
             android:id="@+id/action_settingsFragment_to_forecastMainFragment"
             app:destination="@id/forecastMainFragment" />
+        <action
+            android:id="@+id/action_settingsFragment_to_cityFragment"
+            app:destination="@id/cityFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityFragment"
+        android:name="com.ts.alex.bestforecast.ui.forecast.city_screen.CityFragment"
+        tools:layout="@layout/fragment_city"
+        android:label="CityFragment" >
+        <action
+            android:id="@+id/action_cityFragment_to_forecastMainFragment"
+            app:destination="@id/forecastMainFragment" />
     </fragment>
 </navigation>
