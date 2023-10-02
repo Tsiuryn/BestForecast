@@ -1,0 +1,9 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target": {
+    "namespace": "com.example.keycloak_with_redirect",
+    "package_name": "com.example.keycloak_with_redirect",
+    "sha256_cert_fingerprints":
+    ["1F:85:EB:05:1E:34:DE:B1:72:21:E9:7A:56:C8:24:94:BD:21:84:43:11:C3:E4:C8:59:DE:2D:B8:4A:2D:60:76"]
+  }
+}]
